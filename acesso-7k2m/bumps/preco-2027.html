@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preço 2027 · Raio-X do Imposto</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="selo">Bônus · Raio-X do Imposto</span>
+    <h1>Preço 2027</h1>
+    <p class="lead">A partir de 2027 a CBS e o IBS vêm destacados por fora do preço, e o PIS, a COFINS, o ICMS e o ISS vão saindo. Veja, ano a ano até 2033, quanto cobrar para continuar recebendo o mesmo que hoje.</p>
+  </header>
+
+  <section>
+    <div class="card"><div class="campos">
+      <div class="campo"><label for="c-regime">Regime da empresa</label>
+        <select id="c-regime"><option value="presumido">Lucro Presumido</option><option value="real">Lucro Real</option><option value="simples">Simples Nacional</option></select></div>
+      <div class="campo"><label for="c-setor">O que você vende</label><select id="c-setor"></select></div>
+      <div class="campo"><label for="c-preco">Preço de venda hoje</label><span class="ajuda">De um produto, de um serviço ou do faturamento do mês: a conta é a mesma.</span><div class="entrada"><span>R$</span><input id="c-preco" inputmode="decimal" placeholder="0"></div></div>
+      <div class="campo"><label for="c-custo">Quanto disso é compra de fornecedor</label><span class="ajuda">Mercadoria, matéria-prima, materiais e serviços de terceiros ligados a essa venda. Sem saber, deixe em branco.</span><div class="entrada"><span>R$</span><input id="c-custo" inputmode="decimal" placeholder="0"></div></div>
+      <div class="campo" id="campo-aliq"><label for="c-aliq" id="r-aliq"></label><span class="ajuda" id="a-aliq"></span><div class="entrada"><input id="c-aliq" inputmode="decimal"><span class="depois">%</span></div></div>
+    </div></div>
+    <p class="erro" id="erro" hidden></p>
+    <div class="acoes"><button class="btn" id="calcular">Calcular meu preço</button></div>
+  </section>
+
+  <section id="resultado" hidden>
+    <div class="bloco destaque" id="destaque"></div>
+    <div class="bloco" id="bloco-tabela">
+      <h2>Seu preço ano a ano</h2>
+      <p class="sub">Mantendo o mesmo valor líquido que você recebe hoje, depois dos impostos sobre a venda.</p>
+      <div class="card rolar"><table id="tabela"></table></div>
+    </div>
+    <div class="bloco">
+      <h2>Para levar em conta</h2>
+      <div class="alertas" id="alertas"></div>
+    </div>
+    <div class="acoes"><button class="btn" onclick="window.print()">Salvar em PDF ou imprimir</button></div>
+  </section>
+
+  <div class="aviso">
+    <p><b>Isto é uma simulação, não substitui o seu contador.</b> CBS de 11,3% (cálculo do TCU de 28/10/2026, que o Senado ainda vai fixar) e IBS de 18,7% (estimativa do Comitê Gestor), com as reduções de 30% e 60% da LC 214/2025 para as atividades que têm direito. Não considera Imposto de Renda, CSLL, ICMS-ST, IPI nem benefícios do seu estado ou município. O custo das compras é tratado como líquido de impostos, porque a CBS e o IBS pagos ao fornecedor viram crédito.</p>
+  </div>
+</div>
+
+<script src="../motor.js"></script>
+<script src="bumps.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const numero = txt => { const t = String(txt || '').replace(/[^\d,.]/g, ''); if (!t) return 0; const l = t.includes(',') ? t.replace(/\./g, '').replace(',', '.') : t.replace(/\.(?=\d{3}(\D|$))/g, ''); return parseFloat(l) || 0; };
+const brl = v => 'R$ ' + v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const pct = v => (v >= 0 ? '+' : '') + (v * 100).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + '%';
+document.querySelectorAll('#c-preco, #c-custo').forEach(i => i.addEventListener('blur', () => { if (i.value.trim()) i.value = numero(i.value).toLocaleString('pt-BR'); }));
+
+for (const [id, s] of Object.entries(Motor.SETORES)) $('c-setor').add(new Option(s.nome, id));
+function ajustarAliquota() {
+  const iss = Motor.SETORES[$('c-setor').value].consumo === 'iss';
+  $('r-aliq').textContent = iss ? 'Alíquota de ISS da sua cidade' : 'Alíquota de ICMS do seu estado';
+  $('a-aliq').textContent = iss ? 'Vai de 2% a 5%. Sem saber, use 5%.' : 'A alíquota interna mais comum do seu estado. Sem saber, use 18%.';
+  $('c-aliq').value = iss ? '5' : '18';
+  $('campo-aliq').hidden = $('c-regime').value === 'simples';
+}
+$('c-setor').onchange = $('c-regime').onchange = ajustarAliquota;
+ajustarAliquota();
+
+$('calcular').onclick = () => {
+  const preco = numero($('c-preco').value), custo = numero($('c-custo').value);
+  if (!preco) { $('erro').textContent = 'Informe o preço de venda.'; $('erro').hidden = false; return; }
+  if (custo >= preco) { $('erro').textContent = 'A compra de fornecedor precisa ser menor que o preço de venda.'; $('erro').hidden = false; return; }
+  $('erro').hidden = true;
+  const regime = $('c-regime').value, setor = $('c-setor').value, s = Motor.SETORES[setor];
+  const aliq = numero($('c-aliq').value) / 100;
+  const d = $('destaque');
+  if (regime === 'simples') {
+    d.innerHTML = `<div class="eyebrow">Simples Nacional</div><div class="valor">Seu preço não precisa mudar</div><p>No Simples a CBS e o IBS ficam dentro do DAS, no lugar do PIS, da COFINS, do ICMS e do ISS. O que muda é para quem compra de você: veja abaixo.</p>`;
+    $('bloco-tabela').hidden = true;
+    $('alertas').innerHTML = `<div class="alerta atencao"><b>Se você vende para empresas</b><p>Quem compra de você só aproveita como crédito a parte de CBS e IBS que está no seu DAS, que é menor do que a de um fornecedor fora do Simples. A partir de 2027 você pode escolher pagar CBS e IBS por fora do DAS para dar o crédito cheio. Isso aumenta o seu imposto, mas pode segurar clientes grandes: faça a conta com o seu contador.</p></div>
+      <div class="alerta info"><b>Se você vende para pessoas físicas</b><p>O crédito não faz diferença para elas. Em geral, ficar com tudo dentro do DAS é o mais simples e o mais barato.</p></div>`;
+  } else {
+    const r = Bumps.preco2027({ regime, setor, preco, custo, issAliq: aliq, icmsAliq: aliq });
+    const a27 = r.anos.find(a => a.ano === 2027), a33 = r.anos.find(a => a.ano === 2033);
+    d.innerHTML = `<div class="eyebrow">Para receber o mesmo que hoje</div><div class="valor">${brl(a27.cliente)} em 2027</div><p>Hoje o seu cliente paga <b>${brl(preco)}</b> e sobram <b>${brl(r.liquido)}</b> depois dos impostos sobre a venda. Em 2027 o preço passa a ser <b>${brl(a27.semImposto)} + ${brl(a27.cbsIbs)} de CBS e IBS</b> (${pct(a27.variacao)} para o cliente). Em 2033, com a Reforma completa: <b>${brl(a33.cliente)}</b> (${pct(a33.variacao)}).</p>`;
+    $('bloco-tabela').hidden = false;
+    $('tabela').innerHTML = '<thead><tr><th>Ano</th><th>Seu preço</th><th>CBS + IBS</th><th>Cliente paga</th><th>Variação</th></tr></thead><tbody>' +
+      r.anos.map(a => `<tr><td>${a.ano}</td><td>${brl(a.semImposto)}</td><td>${a.cbsIbs ? brl(a.cbsIbs) : '–'}</td><td>${brl(a.cliente)}</td><td>${a.ano === 2026 ? 'hoje' : pct(a.variacao)}</td></tr>`).join('') + '</tbody>';
+    const al = [
+      ['info', 'Cliente empresa quase não sente', `A empresa que compra de você recupera a CBS e o IBS como crédito. Para ela, o custo real em 2027 é ${brl(a27.semImposto)}, ${pct(a27.semImposto / preco - 1)} em relação a hoje.`],
+      ['atencao', 'Consumidor final sente o preço cheio', 'Pessoa física não tem crédito. Se você vende para o consumidor, compare o novo preço com o da concorrência: concorrente no Simples pode ficar mais barato.'],
+      ['info', 'Suas compras também mudam', 'O fornecedor vai destacar CBS e IBS na nota, e você recupera esse valor como crédito. Por isso a conta usa o custo das compras sem impostos.'],
+    ];
+    if (s.reducao) al.unshift(['economia', `Sua atividade tem redução de ${s.reducao * 100}%`, 'A LC 214/2025 reduz a CBS e o IBS da sua atividade. Confirme com o contador se o seu serviço específico está na lista da lei.']);
+    if (regime === 'presumido') al.push(['atencao', 'No Presumido, quem compra pouco paga mais', 'Hoje o PIS e a COFINS do Presumido são de 3,65% sobre a venda. A CBS é bem maior, mas desconta o que você comprou de fornecedores: serviço com pouca compra sente mais. Vale rodar o Raio-X do Imposto para ver se outro regime compensa.']);
+    $('alertas').innerHTML = al.map(([t, b, p]) => `<div class="alerta ${t}"><b>${b}</b><p>${p}</p></div>`).join('');
+  }
+  $('resultado').hidden = false;
+  $('resultado').scrollIntoView({ behavior: 'smooth' });
+};
+</script>
+</body>
+</html>

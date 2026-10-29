@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pró-labore Ideal · Raio-X do Imposto</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../estilo.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="selo">Bônus · Raio-X do Imposto</span>
+    <h1>Pró-labore Ideal</h1>
+    <p class="lead">Para empresas do Simples em atividades com Fator R: tecnologia, consultoria, marketing, saúde, engenharia, arquitetura, contabilidade. Descubra o pró-labore que leva sua empresa do Anexo V para o III e se a troca compensa, já contando o INSS e o Imposto de Renda dos sócios.</p>
+  </header>
+
+  <section>
+    <div class="card"><div class="campos">
+      <div class="campo"><label for="c-fat">Faturamento por mês</label><span class="ajuda">A média dos últimos 12 meses.</span><div class="entrada"><span>R$</span><input id="c-fat" inputmode="decimal" placeholder="0"></div></div>
+      <div class="campo"><label for="c-sal">Salários dos funcionários por mês</label><span class="ajuda">Soma dos salários com carteira assinada, sem encargos.</span><div class="entrada"><span>R$</span><input id="c-sal" inputmode="decimal" placeholder="0"></div></div>
+      <div class="dupla">
+        <div class="campo"><label for="c-pro">Pró-labore hoje (todos os sócios)</label><div class="entrada"><span>R$</span><input id="c-pro" inputmode="decimal" placeholder="0"></div></div>
+        <div class="campo"><label for="c-soc">Sócios com pró-labore</label><div class="entrada"><input id="c-soc" inputmode="numeric" placeholder="1"><span class="depois">pessoas</span></div></div>
+      </div>
+    </div></div>
+    <p class="erro" id="erro" hidden></p>
+    <div class="acoes"><button class="btn" id="calcular">Calcular o pró-labore ideal</button></div>
+  </section>
+
+  <section id="resultado" hidden>
+    <div class="bloco destaque" id="destaque"></div>
+    <div class="bloco">
+      <h2>Hoje x pró-labore ideal</h2>
+      <p class="sub">Tudo por ano. O custo dos sócios é o INSS de 11% e o Imposto de Renda retido sobre o pró-labore.</p>
+      <div class="card rolar"><table id="tabela"></table></div>
+    </div>
+    <div class="bloco">
+      <h2>Antes de mudar</h2>
+      <div class="alertas" id="alertas"></div>
+    </div>
+    <div class="acoes">
+      <button class="btn" onclick="window.print()">Salvar em PDF ou imprimir</button>
+    </div>
+  </section>
+
+  <div class="aviso">
+    <p><b>Isto é uma simulação, não substitui o seu contador.</b> Usa as faixas do Simples (LC 123/2006), o Fator R de 28%, o teto do INSS de 2026 (R$ 8.475,55) e a tabela do Imposto de Renda com a redução da Lei 15.270/2025, sem dependentes nem outras deduções. Antes de mudar o pró-labore, confirme com o contador da sua empresa.</p>
+  </div>
+</div>
+
+<script src="../motor.js"></script>
+<script src="bumps.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const numero = txt => { const t = String(txt || '').replace(/[^\d,.]/g, ''); if (!t) return 0; const l = t.includes(',') ? t.replace(/\./g, '').replace(',', '.') : t.replace(/\.(?=\d{3}(\D|$))/g, ''); return parseFloat(l) || 0; };
+const brl = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
+const pct = v => (v * 100).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + '%';
+document.querySelectorAll('input[inputmode="decimal"]').forEach(i => i.addEventListener('blur', () => { if (i.value.trim()) i.value = numero(i.value).toLocaleString('pt-BR'); }));
+
+$('calcular').onclick = () => {
+  const fat = numero($('c-fat').value);
+  if (!fat) { $('erro').textContent = 'Informe o faturamento por mês.'; $('erro').hidden = false; return; }
+  $('erro').hidden = true;
+  const r = Bumps.proLaboreIdeal({ faturamentoMes: fat, salariosMes: numero($('c-sal').value), prolaboreMes: numero($('c-pro').value), socios: numero($('c-soc').value) || 1 });
+  const d = $('destaque');
+  const jaNoIII = r.atual.anexo === 'III';
+  if (jaNoIII && r.economiaAno > 0) {
+    d.innerHTML = `<div class="eyebrow">Você já está no Anexo III</div><div class="valor">Dá para economizar ${brl(r.economiaAno)} por ano</div><p>Seu Fator R está em <b>${pct(r.fator)}</b>. Para continuar no Anexo III basta um pró-labore de <b>${brl(r.ideal.prolabore)} por mês</b>${r.ideal.porSocio !== r.ideal.prolabore ? ` (${brl(r.ideal.porSocio)} por sócio)` : ''}. O que passar disso pode sair como lucro, sem INSS nem Imposto de Renda até o limite de R$ 50 mil por mês por sócio. Lembre que pró-labore menor também quer dizer contribuição menor para a aposentadoria.</p>`;
+  } else if (jaNoIII) {
+    d.innerHTML = `<div class="eyebrow">Você já está no Anexo III</div><div class="valor">Seu pró-labore está no ponto</div><p>Seu Fator R está em <b>${pct(r.fator)}</b>, acima dos 28%. O pró-labore mínimo para continuar no Anexo III é de <b>${brl(r.ideal.prolabore)} por mês</b>.</p>`;
+  } else if (r.economiaAno > 0) {
+    d.innerHTML = `<div class="eyebrow">Pró-labore ideal</div><div class="valor">${brl(r.ideal.prolabore)} por mês</div><p>${r.ideal.porSocio !== r.ideal.prolabore ? `${brl(r.ideal.porSocio)} por sócio. ` : ''}Com ele o Fator R chega a 28% e a empresa sai do Anexo V para o III. Já descontado o INSS e o Imposto de Renda dos sócios, a economia é de <b>${brl(r.economiaAno)} por ano</b>.</p>`;
+  } else {
+    d.innerHTML = `<div class="eyebrow">Hoje não compensa</div><div class="valor">Fique no Anexo V</div><p>Para chegar a 28% o pró-labore teria que ser de ${brl(r.ideal.prolabore)} por mês. O INSS e o Imposto de Renda dos sócios custariam <b>${brl(-r.economiaAno)} a mais por ano</b> do que a economia no DAS. Refaça a conta se o faturamento ou a folha mudarem.</p>`;
+  }
+  $('tabela').innerHTML = `<thead><tr><th></th><th>Hoje</th><th>Pró-labore ideal</th></tr></thead><tbody>
+    <tr><td>Pró-labore por mês</td><td>${brl(r.atual.prolabore)}</td><td>${brl(r.ideal.prolabore)}</td></tr>
+    <tr><td>Anexo do Simples</td><td>${r.atual.anexo}</td><td>${r.ideal.anexo}</td></tr>
+    <tr><td>DAS no ano</td><td>${brl(r.atual.das)}</td><td>${brl(r.ideal.das)}</td></tr>
+    <tr><td>INSS e IR dos sócios no ano</td><td>${brl(r.atual.custoPF)}</td><td>${brl(r.ideal.custoPF)}</td></tr>
+    <tr class="total"><td>Total</td><td class="${r.atual.total <= r.ideal.total ? 'min' : ''}">${brl(r.atual.total)}</td><td class="${r.ideal.total < r.atual.total ? 'min' : ''}">${brl(r.ideal.total)}</td></tr></tbody>`;
+  const al = [
+    ['atencao', 'O Fator R olha os últimos 12 meses', 'O anexo de cada mês sai da folha dos 12 meses anteriores dividida pelo faturamento do mesmo período. Ao aumentar o pró-labore agora, a média leva alguns meses para chegar a 28%. Peça ao contador a conta mês a mês e deixe uma folga acima dos 28%.'],
+    ['info', 'Pró-labore tem que ser regular', 'Ele entra na folha todo mês, com recolhimento de INSS e Imposto de Renda, e precisa de pelo menos um salário mínimo por sócio. Pagar só em alguns meses para "acertar" o Fator R chama atenção da fiscalização.'],
+    ['info', 'O que sobra sai como lucro', 'O lucro distribuído aos sócios segue isento de Imposto de Renda até R$ 50 mil por mês por pessoa. Acima disso, desde 2026, há retenção de 10% (Lei 15.270/2025).'],
+  ];
+  if (r.acimaDoLimite) al.unshift(['risco', 'Faturamento acima do limite do Simples', 'Com mais de R$ 4,8 milhões por ano a empresa não pode ficar no Simples. Use o Raio-X do Imposto para comparar Presumido e Real.']);
+  $('alertas').innerHTML = al.map(([t, b, p]) => `<div class="alerta ${t}"><b>${b}</b><p>${p}</p></div>`).join('');
+  $('resultado').hidden = false;
+  $('resultado').scrollIntoView({ behavior: 'smooth' });
+};
+</script>
+</body>
+</html>

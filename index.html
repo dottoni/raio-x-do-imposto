@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raio-X do Imposto · Simples, Presumido ou Real em 2027?</title>
+<meta name="description" content="Compare os regimes tributários com os números da sua empresa, veja o que muda com a Reforma até 2033 e leve um relatório pronto ao seu contador.">
+<meta property="og:title" content="Raio-X do Imposto">
+<meta property="og:description" content="Simples, Presumido ou Real: qual sai mais barato para a sua empresa em 2027? Descubra em 3 minutos.">
+<style>
+:root {
+  --bg: #f5f4f0; --card: #fff; --ink: #17191c; --muted: #61656b; --line: #dedcd5;
+  --accent: #24624a; --accent-soft: #e4efe8; --mark: #d7f25a; --dark: #17191c;
+  font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-size: 17px; line-height: 1.55; }
+.w { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+section { padding: 44px 0; border-bottom: 1px solid var(--line); }
+h1 { font-size: 36px; line-height: 1.1; letter-spacing: -.02em; margin: 14px 0 14px; }
+h2 { font-size: 26px; line-height: 1.2; letter-spacing: -.01em; margin: 0 0 14px; }
+h3 { font-size: 17px; margin: 0 0 4px; }
+p { margin: 0 0 12px; }
+.muted { color: var(--muted); }
+.cta { display: inline-block; text-decoration: none; font-weight: 700; font-size: 18px; color: #fff; background: var(--ink); border-radius: 999px; padding: 16px 28px; margin-top: 8px; }
+.cta:hover { background: #000; }
+.cta-sub { display: block; font-size: 14px; color: var(--muted); margin-top: 10px; }
+.hero { padding-top: 32px; }
+.hero .lead { font-size: 19px; color: #33373c; }
+.marca { font-weight: 800; letter-spacing: -.01em; font-size: 18px; }
+.marca span { background: var(--mark); padding: 0 6px; border-radius: 4px; }
+
+/* prévia do resultado */
+.previa { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-top: 26px; }
+.previa .topo { background: var(--dark); color: #fff; border-radius: 12px; padding: 16px; }
+.previa .topo small { color: var(--mark); font-size: 13px; font-weight: 600; }
+.previa .topo b { display: block; font-size: 28px; margin: 2px 0; }
+.previa .topo p { margin: 0; font-size: 14px; color: #c9ccd0; }
+.cartoes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.cartoes div { border: 1.5px solid var(--line); border-radius: 10px; padding: 10px; font-size: 13px; }
+.cartoes div.top { border-color: var(--accent); background: var(--accent-soft); }
+.cartoes strong { display: block; font-size: 16px; }
+.previa .nota { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; }
+
+.lista { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+.lista li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; }
+.lista li::before { content: ""; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-soft); box-shadow: inset 0 0 0 6px var(--accent-soft), inset 0 0 0 11px var(--accent); margin-top: 2px; }
+.passos { display: grid; gap: 12px; counter-reset: p; }
+.passo { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 16px 16px 58px; position: relative; }
+.passo::before { counter-increment: p; content: counter(p); position: absolute; left: 16px; top: 16px; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 700; display: grid; place-items: center; font-size: 14px; }
+.passo p { margin: 0; color: var(--muted); font-size: 15.5px; }
+.linha { display: grid; gap: 10px; }
+.ano { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: baseline; }
+.ano b { font-size: 18px; }
+.ano p { margin: 0; font-size: 15.5px; }
+.dois { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+.box ul { margin: 8px 0 0; padding-left: 18px; font-size: 15.5px; display: grid; gap: 6px; }
+.oferta { background: var(--dark); color: #fff; border-radius: 18px; padding: 26px 22px; text-align: center; }
+.oferta .de { color: #9ea3a8; text-decoration: line-through; font-size: 15px; }
+.oferta .preco { font-size: 52px; font-weight: 800; letter-spacing: -.02em; line-height: 1; margin: 6px 0; }
+.oferta .preco small { font-size: 20px; font-weight: 600; }
+.oferta ul { text-align: left; max-width: 420px; margin: 18px auto; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 15.5px; color: #dfe2e5; }
+.oferta ul li::before { content: "✓"; color: var(--mark); font-weight: 800; margin-right: 8px; }
+.oferta .cta { background: var(--mark); color: var(--ink); }
+.oferta .cta-sub { color: #9ea3a8; }
+.garantia { display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: center; margin-top: 20px; }
+.selo7 { width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--accent); display: grid; place-items: center; text-align: center; font-weight: 800; color: var(--accent); line-height: 1; font-size: 22px; }
+.selo7 small { display: block; font-size: 11px; font-weight: 700; }
+details { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+details + details { margin-top: 8px; }
+summary { cursor: pointer; font-weight: 700; }
+details p { margin: 10px 0 0; color: #33373c; font-size: 15.5px; }
+footer { padding: 32px 0 48px; font-size: 13.5px; color: var(--muted); }
+footer p { margin: 0 0 8px; }
+@media (max-width: 560px) {
+  h1 { font-size: 30px; }
+  h2 { font-size: 23px; }
+  .dois { grid-template-columns: 1fr; }
+  .cartoes { grid-template-columns: 1fr 1fr; }
+  .cartoes div:last-child { display: none; }
+  .cta { display: block; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero"><div class="w">
+  <div class="marca"><span>Raio-X</span> do Imposto</div>
+  <h1>Simples, Presumido ou Real: qual sai mais barato para a sua empresa em 2027?</h1>
+  <p class="lead">Com os números da sua empresa, o Raio-X do Imposto compara os regimes, mostra o que muda com a Reforma Tributária ano a ano até 2033 e monta as perguntas certas para você levar ao seu contador. Leva 3 minutos, no celular ou no computador.</p>
+  <a class="cta" href="#oferta" data-checkout>Quero o meu Raio-X por R$ 67</a>
+  <span class="cta-sub">Acesso imediato · pagamento único · 7 dias de garantia</span>
+
+  <div class="previa" aria-label="Exemplo de resultado">
+    <div class="topo">
+      <small>Exemplo: economia possível por ano</small>
+      <b>R$ 144.720</b>
+      <p>Empresa de serviços no Lucro Presumido faturando R$ 100 mil por mês, com 3 funcionários.</p>
+    </div>
+    <div class="cartoes">
+      <div class="top"><span>Simples</span><strong>R$ 156.360</strong>13% do faturamento</div>
+      <div><span>Presumido</span><strong>R$ 301.080</strong>25,1% do faturamento</div>
+      <div><span>Real</span><strong>R$ 427.807</strong>35,7% do faturamento</div>
+    </div>
+    <p class="nota">Exemplo ilustrativo, calculado pela própria ferramenta com números fictícios. O resultado da sua empresa depende dos seus números.</p>
+  </div>
+</div></section>
+
+<section><div class="w">
+  <h2>A Reforma começa de verdade em 2027, e o regime do ano se escolhe em janeiro</h2>
+  <div class="linha">
+    <div class="ano"><b>Jan</b><p>É no começo do ano que a empresa escolhe o regime. Escolheu errado, paga o ano inteiro.</p></div>
+    <div class="ano"><b>2027</b><p>O PIS e a COFINS acabam e entra a CBS. Em 28/10/2026 o TCU calculou a CBS de 2027 em 11,3%; o Senado fixa até dezembro.</p></div>
+    <div class="ano"><b>2029</b><p>O ICMS e o ISS começam a diminuir e o IBS começa a subir, até 2033.</p></div>
+    <div class="ano"><b>2033</b><p>Ficam só a CBS e o IBS. Em muitas empresas, o regime mais barato de hoje deixa de ser o mais barato.</p></div>
+  </div>
+</div></section>
+
+<section><div class="w">
+  <h2>Três respostas e o seu Raio-X está pronto</h2>
+  <div class="passos">
+    <div class="passo"><h3>Como sua empresa está hoje</h3><p>MEI, Simples, Presumido, Real ou "ainda vou abrir". Cada situação tem o seu caminho.</p></div>
+    <div class="passo"><h3>O que ela faz</h3><p>Comércio, indústria, serviços, tecnologia, saúde, educação e outras. A atividade muda o anexo, a presunção e o desconto da Reforma.</p></div>
+    <div class="passo"><h3>Os números de um mês normal</h3><p>Faturamento, compras, folha, pró-labore e despesas. Não sabe algum? Deixe em branco.</p></div>
+  </div>
+</div></section>
+
+<section><div class="w">
+  <h2>Tudo o que você precisa para decidir com o seu contador</h2>
+  <ul class="lista">
+    <li><div><h3>Os regimes lado a lado</h3>MEI, Simples, Presumido e Real com o imposto por ano, por mês e em percentual do faturamento, e o mais barato destacado.</div></li>
+    <li><div><h3>A conta tributo por tributo</h3>DAS, IRPJ, CSLL, PIS, COFINS, ISS ou ICMS e INSS da folha. Nada de número mágico.</div></li>
+    <li><div><h3>A Reforma ano a ano, de 2026 a 2033</h3>Quanto você pagaria em cada regime em cada ano da transição, e qual passa a ser o mais barato.</div></li>
+    <li><div><h3>O diagnóstico da sua empresa</h3>Fator R, limite do MEI e do Simples, imposto que pode estar sendo pago em dobro, lucro acima de R$ 50 mil por sócio e a diferença entre o que você paga e o que a conta mostra.</div></li>
+    <li><div><h3>As perguntas para levar ao contador</h3>Uma lista feita para os seus números. Salve em PDF e leve na próxima conversa.</div></li>
+  </ul>
+</div></section>
+
+<section><div class="w">
+  <div class="dois">
+    <div class="box"><h3>É para você se</h3><ul>
+      <li>tem empresa (ou vai abrir) e quer saber se está no regime certo;</li>
+      <li>quer entender o que a Reforma faz com o seu imposto;</li>
+      <li>quer chegar no contador com a conta na mão.</li>
+    </ul></div>
+    <div class="box"><h3>Não é para você se</h3><ul>
+      <li>procura quem faça a sua contabilidade: o Raio-X não substitui o contador;</li>
+      <li>quer o valor exato da guia do mês: é simulação, não apuração;</li>
+      <li>sua empresa fatura mais de R$ 78 milhões por ano.</li>
+    </ul></div>
+  </div>
+</div></section>
+
+<section><div class="w">
+  <h2>Contas abertas, com a lei citada</h2>
+  <ul class="lista">
+    <li><div><h3>Regras com fonte</h3>Simples e MEI pela LC 123/2006; Presumido e Real pelas leis do IRPJ, da CSLL, do PIS e da COFINS; Reforma pela EC 132/2023 e pela LC 214/2025. Cada número tem a sua fonte.</div></li>
+    <li><div><h3>Conferido com casos calculados à mão</h3>Antes de ir ao ar, cada fórmula foi testada contra contas feitas à mão, regime por regime.</div></li>
+    <li><div><h3>Seus números não saem do seu aparelho</h3>A conta é feita no seu navegador. Nada do que você digita é enviado ou guardado.</div></li>
+  </ul>
+</div></section>
+
+<section id="oferta"><div class="w">
+  <div class="oferta">
+    <div class="marca" style="color:#fff"><span style="color:var(--ink)">Raio-X</span> do Imposto</div>
+    <div class="preco"><small>R$</small> 67</div>
+    <div class="cta-sub" style="margin-top:0">pagamento único, sem mensalidade</div>
+    <ul>
+      <li>Simulação de MEI, Simples, Presumido e Real</li>
+      <li>Reforma Tributária ano a ano até 2033</li>
+      <li>Diagnóstico e perguntas para o contador</li>
+      <li>Relatório em PDF</li>
+      <li>Use quantas vezes quiser, no celular ou no computador</li>
+    </ul>
+    <a class="cta" href="#" data-checkout>Quero o meu Raio-X</a>
+    <span class="cta-sub">Pagamento seguro pela Hotmart · acesso logo depois da compra</span>
+  </div>
+  <div class="garantia">
+    <div class="selo7">7<small>dias</small></div>
+    <p class="muted" style="margin:0">Use o Raio-X com os números da sua empresa. Se não fizer sentido para você, peça o reembolso em até 7 dias pela Hotmart e recebe 100% do valor de volta.</p>
+  </div>
+</div></section>
+
+<section><div class="w">
+  <h2>Perguntas frequentes</h2>
+  <details><summary>O Raio-X substitui o meu contador?</summary><p>Não. Ele faz a simulação e organiza a conversa. Trocar de regime, mudar pró-labore ou mudar preço é decisão para tomar com o contador da sua empresa, que conhece detalhes que nenhuma simulação vê.</p></details>
+  <details><summary>Serve para MEI?</summary><p>Serve. O caminho do MEI mostra se você ainda cabe no limite e quanto pagaria no Simples, no Presumido e no Real quando crescer.</p></details>
+  <details><summary>Preciso instalar alguma coisa?</summary><p>Não. Abre no navegador do celular ou do computador. Você recebe o link de acesso logo depois da compra.</p></details>
+  <details><summary>Meus números ficam salvos em algum lugar?</summary><p>Não. A conta é feita no seu aparelho e nada é enviado. Se quiser guardar o resultado, salve o PDF.</p></details>
+  <details><summary>E se as alíquotas da Reforma mudarem?</summary><p>As alíquotas de CBS e IBS a partir de 2027 ainda vão ser fixadas pelo Senado. A ferramenta mostra a data e a fonte de cada número usado, e as regras de 2026 são as que estão em vigor.</p></details>
+  <details><summary>O que fica de fora da simulação?</summary><p>Substituição tributária, PIS e COFINS monofásico, IPI, benefícios do seu estado ou município, retenções, multas e parcelamentos. Quando algum deles pode pesar no seu caso, o diagnóstico avisa.</p></details>
+</div></section>
+
+<footer><div class="w">
+  <p><b>Raio-X do Imposto</b> é uma ferramenta de simulação educativa. Não é consultoria contábil, tributária ou jurídica, não calcula o imposto devido e não substitui o contador da sua empresa.</p>
+  <p>CARVALHO &amp; OTTONI EDUCACAO LTDA · CNPJ 65.669.813/0001-14</p>
+  <p>Privacidade: esta página usa o pixel da Meta para medir os anúncios. A ferramenta não coleta nem guarda os números que você digita.</p>
+</div></footer>
+
+<script>
+// Preencher antes de publicar: o link do checkout da Hotmart e o ID do pixel da Meta deste produto
+const CHECKOUT = '';
+const PIXEL = '';
+if (CHECKOUT) document.querySelectorAll('[data-checkout]').forEach(a => { a.href = CHECKOUT; a.addEventListener('click', () => window.fbq && fbq('track', 'InitiateCheckout')); });
+if (PIXEL) {
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', PIXEL); fbq('track', 'PageView');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: /acesso-7k2m/
