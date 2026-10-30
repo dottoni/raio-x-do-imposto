@@ -1,7 +1,7 @@
 /* Visual do Raio-X do Imposto: app principal e bumps */
 :root {
-  --bg: #f5f4f0; --card: #ffffff; --ink: #17191c; --muted: #61656b; --line: #dedcd5;
-  --accent: #24624a; --accent-soft: #e4efe8; --mark: #d7f25a;
+  --bg: #f5f4f0; --card: #ffffff; --ink: #17191c; --muted: #565a61; --line: #d9d6cc;
+  --accent: #24624a; --accent-soft: #e1ede6; --mark: #d7f25a;
   --risk: #a3331f; --risk-soft: #f8e6e1; --warn: #8a5a00; --warn-soft: #fbf0d9;
   --radius: 14px;
   font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -111,4 +111,6 @@ details.fontes ul { padding-left: 18px; margin: 8px 0 0; }
 /* bumps */
 select { font: inherit; font-size: 17px; width: 100%; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; padding: 12px; color: var(--ink); }
 select:focus { outline: none; border-color: var(--accent); }
-.selo { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; background: var(--mark); color: var(--ink); padding: 3px 9px; border-radius: 999px; }
+.selo { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 700; background: var(--mark); color: var(--ink); padding: 3px 9px; border-radius: 999px; }
+.licenca { font-size: 13px; color: var(--muted); margin-top: 8px; }
+@media print { .licenca { display: block !important; } }

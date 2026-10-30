@@ -3,210 +3,502 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Raio-X do Imposto · Simples, Presumido ou Real em 2027?</title>
-<meta name="description" content="Compare os regimes tributários com os números da sua empresa, veja o que muda com a Reforma até 2033 e leve um relatório pronto ao seu contador.">
+<title>Raio-X do Imposto · Simples, Presumido ou Real?</title>
+<meta name="description" content="Coloque os números de um mês normal e veja o imposto da sua empresa em cada regime, tributo por tributo, e o que muda com a Reforma até 2033.">
 <meta property="og:title" content="Raio-X do Imposto">
-<meta property="og:description" content="Simples, Presumido ou Real: qual sai mais barato para a sua empresa em 2027? Descubra em 3 minutos.">
+<meta property="og:description" content="Simples, Presumido ou Real: qual sai mais barato para a sua empresa? Veja em 3 minutos.">
+<meta property="og:image" content="img/og.png">
+<meta name="theme-color" content="#17191c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&display=swap">
 <style>
 :root {
-  --bg: #f5f4f0; --card: #fff; --ink: #17191c; --muted: #61656b; --line: #dedcd5;
-  --accent: #24624a; --accent-soft: #e4efe8; --mark: #d7f25a; --dark: #17191c;
-  font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --paper: #f5f4f0; --paper-2: #ecebe5; --ink: #17191c; --muted: #565a61; --line: #d9d6cc;
+  --film: #17191c; --film-2: #212429; --film-line: #33373e; --film-text: #c3c7cc; --film-dim: #8b9097;
+  --lime: #d7f25a; --green: #24624a; --green-soft: #e1ede6;
+  --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --ease: cubic-bezier(.16, 1, .3, 1);
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-size: 17px; line-height: 1.55; }
-.w { max-width: 720px; margin: 0 auto; padding: 0 16px; }
-section { padding: 44px 0; border-bottom: 1px solid var(--line); }
-h1 { font-size: 36px; line-height: 1.1; letter-spacing: -.02em; margin: 14px 0 14px; }
-h2 { font-size: 26px; line-height: 1.2; letter-spacing: -.01em; margin: 0 0 14px; }
-h3 { font-size: 17px; margin: 0 0 4px; }
-p { margin: 0 0 12px; }
-.muted { color: var(--muted); }
-.cta { display: inline-block; text-decoration: none; font-weight: 700; font-size: 18px; color: #fff; background: var(--ink); border-radius: 999px; padding: 16px 28px; margin-top: 8px; }
-.cta:hover { background: #000; }
-.cta-sub { display: block; font-size: 14px; color: var(--muted); margin-top: 10px; }
-.hero { padding-top: 32px; }
-.hero .lead { font-size: 19px; color: #33373c; }
-.marca { font-weight: 800; letter-spacing: -.01em; font-size: 18px; }
-.marca span { background: var(--mark); padding: 0 6px; border-radius: 4px; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.55 var(--display); font-stretch: 100%; -webkit-font-smoothing: antialiased; }
+::selection { background: var(--lime); color: var(--ink); }
+a { color: var(--green); text-underline-offset: 3px; }
+:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; border-radius: 6px; }
+img { max-width: 100%; height: auto; display: block; }
+.w { width: min(1120px, 100%); margin: 0 auto; padding: 0 16px; }
+.num { font-variant-numeric: tabular-nums; }
+h1, h2, h3 { font-stretch: 118%; letter-spacing: -.025em; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(30px, 8vw, 72px); line-height: .98; font-weight: 800; }
+h2 { font-size: clamp(28px, 5.4vw, 48px); line-height: 1.02; font-weight: 800; }
+h3 { font-size: 19px; line-height: 1.2; font-weight: 700; letter-spacing: -.01em; font-stretch: 105%; }
+p { margin: 0; }
+.lead { font-size: clamp(17px, 2.2vw, 21px); color: #33373c; max-width: 34em; }
 
-/* prévia do resultado */
-.previa { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-top: 26px; }
-.previa .topo { background: var(--dark); color: #fff; border-radius: 12px; padding: 16px; }
-.previa .topo small { color: var(--mark); font-size: 13px; font-weight: 600; }
-.previa .topo b { display: block; font-size: 28px; margin: 2px 0; }
-.previa .topo p { margin: 0; font-size: 14px; color: #c9ccd0; }
-.cartoes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-.cartoes div { border: 1.5px solid var(--line); border-radius: 10px; padding: 10px; font-size: 13px; }
-.cartoes div.top { border-color: var(--accent); background: var(--accent-soft); }
-.cartoes strong { display: block; font-size: 16px; }
-.previa .nota { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; }
+/* botões */
+.cta { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 800; font-stretch: 110%; font-size: 18px; color: var(--ink); background: var(--lime); border-radius: 999px; padding: 17px 26px; box-shadow: 0 10px 24px -12px rgba(23, 25, 28, .55); transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
+.cta:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -14px rgba(23, 25, 28, .6); }
+.cta:active { transform: translateY(0); }
+.cta svg { width: 20px; height: 20px; }
+.cta-nota { display: block; font-size: 14px; color: var(--muted); margin-top: 12px; }
+.cta-nota b { color: var(--ink); font-weight: 600; }
 
-.lista { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
-.lista li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; }
-.lista li::before { content: ""; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-soft); box-shadow: inset 0 0 0 6px var(--accent-soft), inset 0 0 0 11px var(--accent); margin-top: 2px; }
-.passos { display: grid; gap: 12px; counter-reset: p; }
-.passo { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 16px 16px 58px; position: relative; }
-.passo::before { counter-increment: p; content: counter(p); position: absolute; left: 16px; top: 16px; width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 700; display: grid; place-items: center; font-size: 14px; }
-.passo p { margin: 0; color: var(--muted); font-size: 15.5px; }
-.linha { display: grid; gap: 10px; }
-.ano { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: baseline; }
-.ano b { font-size: 18px; }
-.ano p { margin: 0; font-size: 15.5px; }
-.dois { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
-.box ul { margin: 8px 0 0; padding-left: 18px; font-size: 15.5px; display: grid; gap: 6px; }
-.oferta { background: var(--dark); color: #fff; border-radius: 18px; padding: 26px 22px; text-align: center; }
-.oferta .de { color: #9ea3a8; text-decoration: line-through; font-size: 15px; }
-.oferta .preco { font-size: 52px; font-weight: 800; letter-spacing: -.02em; line-height: 1; margin: 6px 0; }
-.oferta .preco small { font-size: 20px; font-weight: 600; }
-.oferta ul { text-align: left; max-width: 420px; margin: 18px auto; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 15.5px; color: #dfe2e5; }
-.oferta ul li::before { content: "✓"; color: var(--mark); font-weight: 800; margin-right: 8px; }
-.oferta .cta { background: var(--mark); color: var(--ink); }
-.oferta .cta-sub { color: #9ea3a8; }
-.garantia { display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: center; margin-top: 20px; }
-.selo7 { width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--accent); display: grid; place-items: center; text-align: center; font-weight: 800; color: var(--accent); line-height: 1; font-size: 22px; }
-.selo7 small { display: block; font-size: 11px; font-weight: 700; }
-details { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
-details + details { margin-top: 8px; }
-summary { cursor: pointer; font-weight: 700; }
-details p { margin: 10px 0 0; color: #33373c; font-size: 15.5px; }
-footer { padding: 32px 0 48px; font-size: 13.5px; color: var(--muted); }
-footer p { margin: 0 0 8px; }
-@media (max-width: 560px) {
-  h1 { font-size: 30px; }
-  h2 { font-size: 23px; }
-  .dois { grid-template-columns: 1fr; }
-  .cartoes { grid-template-columns: 1fr 1fr; }
-  .cartoes div:last-child { display: none; }
-  .cta { display: block; text-align: center; }
+/* topo */
+.barra { display: flex; align-items: center; justify-content: space-between; padding-block: 14px; }
+.marca { display: flex; align-items: center; gap: 10px; font-weight: 800; font-stretch: 112%; font-size: 17px; letter-spacing: -.01em; color: var(--ink); text-decoration: none; }
+.marca svg { width: 34px; height: 34px; }
+.entrar { font-size: 15px; font-weight: 600; color: var(--ink); text-decoration: none; border: 1.5px solid var(--line); border-radius: 999px; padding: 8px 16px; }
+.entrar:hover { border-color: var(--ink); }
+
+/* herói */
+.heroi { padding-top: 26px; }
+.heroi h1 { max-width: 13.5em; }
+.heroi .lead { margin: 18px 0 24px; }
+
+/* o filme de raio-x: painel grafite com os regimes */
+.filme { position: relative; overflow: hidden; background: var(--film); color: #fff; border-radius: 22px; margin-top: 34px; padding: 22px 18px 20px; isolation: isolate; }
+.filme-topo { display: flex; justify-content: space-between; gap: 12px; align-items: center; font-size: 14px; color: var(--film-text); margin-bottom: 16px; }
+.filme-topo b { color: #fff; font-weight: 600; }
+.rever { font: inherit; font-size: 13.5px; color: var(--film-text); background: none; border: 1px solid var(--film-line); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+.rever:hover { color: #fff; border-color: var(--film-dim); }
+.regimes { display: grid; gap: 10px; }
+.regime { display: grid; grid-template-columns: 1fr auto; gap: 6px 14px; align-items: baseline; padding: 14px 14px 12px; border-radius: 14px; background: var(--film-2); border: 1px solid var(--film-line); transition: background .6s var(--ease), border-color .6s var(--ease), color .6s var(--ease); }
+.regime .nome { font-weight: 700; font-stretch: 108%; font-size: 17px; }
+.regime .valor { font-weight: 800; font-size: 20px; font-stretch: 105%; }
+.regime .barra-v { grid-column: 1 / -1; height: 8px; border-radius: 4px; background: #2c3036; overflow: hidden; }
+.regime .barra-v i { display: block; height: 100%; width: var(--w); border-radius: 4px; background: #5a6069; transform-origin: left; }
+.regime .info { grid-column: 1 / -1; font-size: 13.5px; color: var(--film-dim); }
+.regime.fora { opacity: .55; }
+.regime.fora .valor { font-size: 14px; font-weight: 500; color: var(--film-dim); }
+.regime.top { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+.regime.top .info { color: #3b4a12; }
+.regime.top .barra-v { background: rgba(23, 25, 28, .14); }
+.regime.top .barra-v i { background: var(--ink); }
+.selo-hoje { display: inline-block; font-size: 12px; font-weight: 700; background: #33373e; color: var(--film-text); padding: 2px 9px; border-radius: 999px; margin-left: 8px; vertical-align: 2px; }
+.selo-top { display: inline-block; font-size: 12px; font-weight: 700; background: var(--ink); color: var(--lime); padding: 2px 9px; border-radius: 999px; margin-left: 8px; vertical-align: 2px; }
+.economia { display: flex; gap: 10px 16px; align-items: baseline; flex-wrap: wrap; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--film-line); }
+.economia span { color: var(--film-text); font-size: 15px; }
+.economia b { font-size: clamp(28px, 6vw, 40px); font-weight: 800; font-stretch: 112%; color: var(--lime); letter-spacing: -.02em; }
+.filme-nota { font-size: 12.5px; color: var(--film-dim); margin-top: 12px; }
+/* a linha de varredura */
+.varredura { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--lime); box-shadow: 0 0 18px 4px rgba(215, 242, 90, .5), 0 0 60px 10px rgba(215, 242, 90, .18); opacity: 0; pointer-events: none; }
+.filme.revelando .varredura { animation: varrer 2.6s var(--ease) forwards; }
+@keyframes varrer { 0% { top: 0; opacity: 1; } 88% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+.filme.revelando .regime { animation: revelar .9s var(--ease) backwards; }
+.filme.revelando .regime:nth-child(1) { animation-delay: .25s; }
+.filme.revelando .regime:nth-child(2) { animation-delay: .6s; }
+.filme.revelando .regime:nth-child(3) { animation-delay: .95s; }
+.filme.revelando .regime:nth-child(4) { animation-delay: 1.3s; }
+.filme.revelando .regime .barra-v i { animation: crescer 1.1s var(--ease) backwards; animation-delay: inherit; }
+@keyframes revelar { from { opacity: 0; filter: blur(8px); transform: translateY(6px); } }
+@keyframes crescer { from { transform: scaleX(0); } }
+.filme.revelando .regime.top { animation: revelar .9s var(--ease) backwards, acender .5s var(--ease) 2.4s backwards; }
+@keyframes acender { from { background: var(--film-2); border-color: var(--film-line); color: #fff; } }
+.filme.revelando .economia { animation: revelar .8s var(--ease) 2.6s backwards; }
+
+/* seções */
+section { padding: clamp(64px, 11vw, 120px) 0 0; }
+.cabeca { max-width: 40em; margin-bottom: 28px; }
+.cabeca p { margin-top: 14px; color: var(--muted); font-size: 18px; }
+
+/* tabela tributo por tributo */
+.conta { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 6px 4px; }
+.conta table { width: 100%; border-collapse: collapse; font-size: clamp(13px, 2.4vw, 16px); }
+.conta th, .conta td { padding: 11px 10px; text-align: right; border-bottom: 1px solid var(--paper-2); white-space: nowrap; }
+.conta th:first-child, .conta td:first-child { text-align: left; white-space: normal; }
+.conta thead th { font-weight: 700; font-stretch: 105%; color: var(--ink); font-size: clamp(12.5px, 2.2vw, 15px); }
+.conta tbody td:first-child { color: var(--muted); }
+.conta tr.total td { border-bottom: 0; font-weight: 800; color: var(--ink); font-size: clamp(14px, 2.6vw, 18px); }
+.conta td.menor { background: var(--lime); color: var(--ink); }
+.conta td.vazio { color: #8d8a80; }
+.conta tbody tr { transition: opacity .7s var(--ease), transform .7s var(--ease); }
+.js .conta:not(.visto) tbody tr { opacity: 0; transform: translateY(8px); }
+.conta-nota { font-size: 14px; color: var(--muted); margin-top: 12px; }
+
+/* aparelhos */
+.aparelhos { display: grid; gap: 40px; align-items: center; }
+.cena { position: relative; padding: 0 0 40px; }
+.notebook { position: relative; margin-right: 18%; }
+.notebook .tela { background: #0f1012; border-radius: 14px 14px 0 0; padding: 10px 10px 0; box-shadow: 0 30px 60px -30px rgba(23, 25, 28, .5); }
+.notebook .tela img { border-radius: 4px 4px 0 0; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; width: 100%; }
+.notebook .base { height: 14px; background: #cfd2d6; border-radius: 0 0 14px 14px; margin: 0 -5%; }
+.celular { position: absolute; right: 0; bottom: 0; width: 34%; min-width: 128px; background: #0f1012; border-radius: 26px; padding: 7px; box-shadow: 0 30px 50px -20px rgba(23, 25, 28, .55); }
+.celular img { border-radius: 20px; aspect-ratio: 390 / 844; object-fit: cover; object-position: top; width: 100%; }
+.passos { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.passos li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.passos .n { width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: var(--lime); display: grid; place-items: center; font-weight: 800; font-size: 15px; }
+.passos p { color: var(--muted); font-size: 16px; margin-top: 2px; }
+
+/* reforma */
+.reforma { background: var(--film); color: #fff; border-radius: 22px; padding: clamp(22px, 4vw, 40px); }
+.reforma h2 { color: #fff; }
+.reforma .cabeca p { color: var(--film-text); }
+.grafico { width: 100%; max-width: 860px; height: auto; display: block; margin-top: 8px; }
+.legenda { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 15px; color: var(--film-text); }
+.legenda i { display: inline-block; width: 18px; height: 4px; border-radius: 2px; margin-right: 8px; vertical-align: middle; }
+.legenda b { color: #fff; font-weight: 700; }
+.grafico .eixo { stroke: var(--film-line); }
+.grafico text { fill: var(--film-dim); font: 500 13px var(--display); }
+.grafico .rot { font-weight: 700; font-size: 14px; }
+@media (max-width: 600px) { .grafico text { font-size: 24px; } .grafico .rot { font-size: 26px; } .grafico .so-largo { display: none; } }
+.grafico .linha { fill: none; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.js .grafico:not(.visto) .linha { stroke-dashoffset: var(--len); }
+.grafico .linha { stroke-dasharray: var(--len); stroke-dashoffset: 0; transition: stroke-dashoffset 1.8s var(--ease); }
+.marcos { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 22px; border-top: 2px solid var(--film-line); }
+.marcos div { position: relative; padding: 16px 10px 0 0; font-size: 14px; color: var(--film-text); line-height: 1.35; }
+.marcos div::before { content: ""; position: absolute; top: -7px; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--film-dim); }
+.marcos div:first-child::before { background: var(--lime); }
+.marcos b { display: block; color: #fff; font-size: 20px; font-weight: 800; font-stretch: 110%; }
+.reforma-nota { font-size: 13px; color: var(--film-dim); margin-top: 18px; }
+
+/* relatório */
+.relatorio-bloco { display: grid; gap: 36px; align-items: center; }
+.folhas { position: relative; height: 380px; max-width: 420px; margin: 0 auto; width: 100%; }
+.folha { position: absolute; width: 82%; background: #fff; border-radius: 6px; box-shadow: 0 18px 40px -22px rgba(23, 25, 28, .45), 0 1px 0 var(--line); padding: 22px 20px; font-size: 12.5px; line-height: 1.45; color: #3a3e44; transition: transform .9s var(--ease); }
+.folha .titulo { margin: 0 0 10px; font-size: 13px; font-weight: 800; font-stretch: 110%; color: var(--ink); }
+.folha .linha-cinza { height: 7px; border-radius: 4px; background: var(--paper-2); margin: 7px 0; }
+.f1 { left: 0; top: 0; transform: rotate(-4deg); }
+.f2 { left: 6%; top: 48px; transform: rotate(-1.5deg); }
+.f3 { right: 0; top: 104px; transform: rotate(2deg); }
+.js .relatorio-bloco:not(.visto) .f1 { transform: rotate(0) translate(18%, 8px); }
+.js .relatorio-bloco:not(.visto) .f2 { transform: rotate(0) translate(6%, 12px); }
+.js .relatorio-bloco:not(.visto) .f3 { transform: rotate(0) translate(-8%, 18px); }
+.folha .alerta { border-radius: 6px; padding: 8px 10px; margin: 8px 0; background: var(--green-soft); color: #1d4a38; font-weight: 600; }
+.folha ol { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 6px; }
+.folha mark { background: linear-gradient(transparent 45%, var(--lime) 45%); color: var(--ink); padding: 0 2px; }
+.lista { list-style: none; padding: 0; margin: 0; display: grid; gap: 18px; }
+.lista li { display: grid; grid-template-columns: 28px 1fr; gap: 12px; }
+.lista svg { width: 24px; height: 24px; color: var(--green); margin-top: 2px; }
+.lista p { color: var(--muted); font-size: 16px; margin-top: 2px; }
+
+/* para quem */
+.quem { display: grid; gap: 28px; }
+.quem ul { margin: 14px 0 0; padding-left: 20px; display: grid; gap: 8px; color: #33373c; }
+.quem .nao ul { color: var(--muted); }
+
+/* confiança */
+.provas { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.prova { display: grid; grid-template-columns: 40px 1fr; gap: 14px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.prova svg { width: 30px; height: 30px; color: var(--ink); }
+.prova p { color: var(--muted); font-size: 16px; margin-top: 4px; }
+
+/* oferta */
+.oferta { background: var(--film); color: #fff; border-radius: 26px; padding: clamp(26px, 5vw, 52px); display: grid; gap: 28px; position: relative; overflow: hidden; }
+.oferta::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--lime); box-shadow: 0 0 18px 4px rgba(215, 242, 90, .45); }
+.oferta h2 { color: #fff; }
+.preco { display: flex; align-items: flex-start; gap: 6px; font-weight: 900; font-stretch: 112%; line-height: .9; margin: 18px 0 6px; }
+.preco small { font-size: 24px; margin-top: 8px; }
+.preco span { font-size: clamp(72px, 14vw, 104px); letter-spacing: -.04em; color: var(--lime); }
+.oferta .sub { color: var(--film-text); }
+.inclui { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.inclui li { display: grid; grid-template-columns: 24px 1fr; gap: 10px; color: #e3e6e9; }
+.inclui svg { width: 20px; height: 20px; color: var(--lime); margin-top: 3px; }
+.bonus { border-top: 1px solid var(--film-line); padding-top: 18px; font-size: 15px; color: var(--film-text); }
+.bonus b { color: #fff; }
+.oferta .cta-nota { color: var(--film-dim); }
+.garantia { display: grid; grid-template-columns: 72px 1fr; gap: 16px; align-items: center; margin-top: 26px; max-width: 40em; }
+.selo7 { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--green); display: grid; place-content: center; text-align: center; color: var(--green); font-weight: 900; font-stretch: 110%; font-size: 26px; line-height: .9; }
+.selo7 small { font-size: 12px; font-weight: 700; }
+.garantia p { color: var(--muted); font-size: 16px; }
+
+/* perguntas frequentes */
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; font-weight: 700; font-size: 18px; font-stretch: 105%; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex: none; width: 12px; height: 12px; margin-top: 6px; border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink); transform: rotate(45deg); transition: transform .4s var(--ease); }
+.faq details[open] summary::after { transform: rotate(-135deg); }
+.faq details p { color: var(--muted); padding: 0 0 18px; max-width: 42em; }
+.faq { border-top: 1px solid var(--line); }
+
+footer { padding: 72px 0 110px; font-size: 14px; color: var(--muted); }
+footer .w > * + * { margin-top: 8px; }
+footer nav { display: flex; gap: 18px; flex-wrap: wrap; }
+
+/* botão fixo no celular */
+.fixo { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--film); color: #fff; border-radius: 18px; padding: 10px 10px 10px 16px; box-shadow: 0 16px 34px -14px rgba(0, 0, 0, .6); transform: translateY(140%); transition: transform .5s var(--ease); }
+.fixo.on { transform: none; }
+.fixo span { font-size: 14px; color: var(--film-text); line-height: 1.25; }
+.fixo b { display: block; color: #fff; font-size: 16px; }
+.fixo .cta { padding: 12px 14px; font-size: 15px; box-shadow: none; white-space: nowrap; }
+
+@media (max-width: 759px) {
+  .filme { margin-top: 20px; padding: 16px 14px 16px; }
+  .filme-topo { font-size: 13px; margin-bottom: 12px; }
+  .regimes { gap: 8px; }
+  .regime { padding: 10px 12px; gap: 6px 12px; }
+  .regime .info { display: none; }
+  .regime .valor { font-size: 18px; }
+  .regime.fora { padding-block: 8px; }
+  .selo-top, .selo-hoje { font-size: 11px; padding: 1px 8px; }
+  .economia { margin-top: 12px; padding-top: 12px; }
+  .heroi .lead { margin: 14px 0 20px; }
+  .notebook { display: none; }
+  .cena { padding: 0; }
+  .celular { position: static; width: 72%; margin: 0 auto; }
+  .folhas { height: 500px; }
+  .f3 { top: 228px; }
+}
+@media (min-width: 760px) {
+  .filme { padding: 28px; }
+  .regimes { grid-template-columns: repeat(4, 1fr); }
+  .regime { grid-template-columns: 1fr; align-content: start; min-height: 168px; }
+  .regime .valor { font-size: 26px; }
+  .aparelhos { grid-template-columns: 1.3fr 1fr; }
+  .relatorio-bloco { grid-template-columns: 1fr 1.1fr; }
+  .quem { grid-template-columns: 1fr 1fr; }
+  .provas { grid-template-columns: 1fr 1fr; column-gap: 40px; }
+  .oferta { grid-template-columns: 1fr 1fr; align-items: center; }
+  .fixo { display: none; }
+  footer { padding-bottom: 72px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js .conta:not(.visto) tbody tr { opacity: 1; transform: none; }
+  .js .grafico:not(.visto) .linha { stroke-dashoffset: 0; }
 }
 </style>
 </head>
 <body>
+<script>document.documentElement.classList.add('js'); document.body.classList.add('js');</script>
 
-<section class="hero"><div class="w">
-  <div class="marca"><span>Raio-X</span> do Imposto</div>
-  <h1>Simples, Presumido ou Real: qual sai mais barato para a sua empresa em 2027?</h1>
-  <p class="lead">Com os números da sua empresa, o Raio-X do Imposto compara os regimes, mostra o que muda com a Reforma Tributária ano a ano até 2033 e monta as perguntas certas para você levar ao seu contador. Leva 3 minutos, no celular ou no computador.</p>
-  <a class="cta" href="#oferta" data-checkout>Quero o meu Raio-X por R$ 67</a>
-  <span class="cta-sub">Acesso imediato · pagamento único · 7 dias de garantia</span>
+<header class="w barra">
+  <a class="marca" href="#" aria-label="Raio-X do Imposto, início">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#17191c"/><rect x="17" y="7" width="6" height="26" rx="2" fill="#f5f4f0" transform="rotate(35 20 20)"/><rect x="17" y="7" width="6" height="26" rx="2" fill="#d7f25a" transform="rotate(-35 20 20)"/><rect x="0" y="22" width="40" height="1.4" fill="#d7f25a"/></svg>
+    Raio-X do Imposto
+  </a>
+  <a class="entrar" href="https://hotmart.com/pt-BR/club/raio-x-do-imposto">Entrar</a>
+</header>
 
-  <div class="previa" aria-label="Exemplo de resultado">
-    <div class="topo">
-      <small>Exemplo: economia possível por ano</small>
-      <b>R$ 144.720</b>
-      <p>Empresa de serviços no Lucro Presumido faturando R$ 100 mil por mês, com 3 funcionários.</p>
+<main>
+  <div class="w heroi">
+    <h1>Simples, Presumido ou Real: qual sai mais barato para a sua empresa?</h1>
+    <p class="lead">Veja o imposto de cada regime com os números da sua empresa, tributo por tributo, e o que muda até 2033.</p>
+    <a class="cta" href="#oferta" data-checkout>Quero o meu Raio-X · R$ 67
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <span class="cta-nota"><b>Acesso na hora</b> · no celular ou no computador · 7 dias de garantia</span>
+
+    <div class="filme" id="filme" aria-label="Exemplo de resultado do Raio-X do Imposto">
+      <div class="varredura" aria-hidden="true"></div>
+      <div class="filme-topo">
+        <span><b>Exemplo:</b> serviços no Lucro Presumido, R$ 100 mil por mês, 3 funcionários</span>
+        <button class="rever" type="button" id="rever">Rever</button>
+      </div>
+      <div class="regimes">
+        <div class="regime fora"><span class="nome">MEI</span><span class="valor">não cabe</span><span class="info">acima de R$ 81 mil por ano</span></div>
+        <div class="regime top"><span class="nome">Simples<span class="selo-top">mais barato</span></span><span class="valor num">R$ 156.360</span><span class="barra-v"><i style="--w: 37%"></i></span><span class="info">13% do faturamento</span></div>
+        <div class="regime"><span class="nome">Presumido<span class="selo-hoje">hoje</span></span><span class="valor num">R$ 301.080</span><span class="barra-v"><i style="--w: 70%"></i></span><span class="info">25,1% do faturamento</span></div>
+        <div class="regime"><span class="nome">Real</span><span class="valor num">R$ 427.807</span><span class="barra-v"><i style="--w: 100%"></i></span><span class="info">35,7% do faturamento</span></div>
+      </div>
+      <div class="economia"><span>Economia possível por ano</span><b class="num">R$ 144.720</b></div>
+      <p class="filme-nota">Imposto por ano. Exemplo calculado pela própria ferramenta com números fictícios: o resultado da sua empresa depende dos seus números.</p>
     </div>
-    <div class="cartoes">
-      <div class="top"><span>Simples</span><strong>R$ 156.360</strong>13% do faturamento</div>
-      <div><span>Presumido</span><strong>R$ 301.080</strong>25,1% do faturamento</div>
-      <div><span>Real</span><strong>R$ 427.807</strong>35,7% do faturamento</div>
+  </div>
+
+  <section>
+    <div class="w">
+      <div class="cabeca">
+        <h2>Tributo por tributo, sem número mágico</h2>
+        <p>Você vê de onde sai cada real: o DAS do Simples, o IRPJ, a CSLL, o PIS, a COFINS, o ISS ou o ICMS e o INSS da folha. É a conta que o seu contador faz, aberta na sua frente.</p>
+      </div>
+      <div class="conta" id="conta">
+        <table>
+          <thead><tr><th scope="col">Por ano</th><th scope="col">Simples</th><th scope="col">Presumido</th><th scope="col">Real</th></tr></thead>
+          <tbody>
+            <tr><td>DAS (Anexo III)</td><td class="num">156.360</td><td class="vazio">–</td><td class="vazio">–</td></tr>
+            <tr><td>IRPJ</td><td class="vazio">–</td><td class="num">72.000</td><td class="num">115.770</td></tr>
+            <tr><td>CSLL</td><td class="vazio">–</td><td class="num">34.560</td><td class="num">50.317</td></tr>
+            <tr><td>PIS e COFINS</td><td class="vazio">–</td><td class="num">43.800</td><td class="num">111.000</td></tr>
+            <tr><td>ISS</td><td class="vazio">–</td><td class="num">60.000</td><td class="num">60.000</td></tr>
+            <tr><td>INSS da folha</td><td class="vazio">–</td><td class="num">90.720</td><td class="num">90.720</td></tr>
+            <tr class="total"><td>Total</td><td class="num menor">156.360</td><td class="num">301.080</td><td class="num">427.807</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="conta-nota">Mesmo exemplo de cima, em reais. Cada alíquota do app traz a lei de onde saiu.</p>
     </div>
-    <p class="nota">Exemplo ilustrativo, calculado pela própria ferramenta com números fictícios. O resultado da sua empresa depende dos seus números.</p>
+  </section>
+
+  <section>
+    <div class="w aparelhos">
+      <div class="cena" aria-hidden="true">
+        <div class="notebook"><div class="tela"><img src="img/tela-notebook-resultado.png" alt="" loading="lazy" width="1000" height="625"></div><div class="base"></div></div>
+        <div class="celular"><img src="img/tela-celular-resultado.png" alt="" loading="lazy" width="390" height="844"></div>
+      </div>
+      <div>
+        <h2>Três respostas e o seu Raio&#8209;X está pronto</h2>
+        <ol class="passos">
+          <li><span class="n">1</span><div><h3>Como a empresa está hoje</h3><p>MEI, Simples, Presumido, Real ou "ainda vou abrir". Cada situação tem o seu caminho.</p></div></li>
+          <li><span class="n">2</span><div><h3>O que ela faz</h3><p>Comércio, indústria, serviços, tecnologia, saúde, educação, obras. A atividade muda o anexo, a presunção e o desconto da Reforma.</p></div></li>
+          <li><span class="n">3</span><div><h3>Os números de um mês normal</h3><p>Faturamento, compras, folha, pró-labore e despesas. Não sabe algum? Deixe em branco.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="w">
+      <div class="reforma">
+        <div class="cabeca">
+          <h2>A Reforma muda quem é o mais barato</h2>
+          <p>A partir de 2027 o PIS e a COFINS dão lugar à CBS; de 2029 a 2033 o ISS e o ICMS saem e entra o IBS. No exemplo, o Presumido sobe de R$ 301 mil para R$ 557 mil por ano e passa até o Real. O Raio&#8209;X mostra essa virada com os seus números, ano a ano.</p>
+        </div>
+        <svg class="grafico" id="grafico" viewBox="0 0 640 304" role="img" aria-label="Imposto por ano de 2026 a 2033 no exemplo: Simples estável em 156 mil; Presumido sobe de 301 mil para 557 mil; Real sobe de 428 mil para 553 mil.">
+          <line class="eixo" x1="40" y1="260" x2="620" y2="260"/>
+          <g aria-hidden="true">
+            <text x="40" y="290">2026</text><text class="so-largo" x="206" y="290" text-anchor="middle">2028</text><text x="371" y="290" text-anchor="middle">2030</text><text class="so-largo" x="537" y="290" text-anchor="middle">2032</text><text x="620" y="290" text-anchor="end">2033</text>
+          </g>
+          <!-- y = 260 - valor/600000*230 ; x = 40 + (ano-2026)*82.86 -->
+          <polyline class="linha" style="--len: 600; stroke: #8b9097" points="40,96 123,90 206,90 289,86 371,81 454,77 537,73 620,48"/>
+          <polyline class="linha" style="--len: 700; stroke: #ffffff" points="40,145 123,109 206,109 289,103 371,97 454,90 537,84 620,46"/>
+          <polyline class="linha" style="--len: 600; stroke: #d7f25a" points="40,200 123,200 206,200 289,200 371,200 454,200 537,200 620,200"/>
+        </svg>
+        <ul class="legenda">
+          <li><i style="background:#ffffff"></i><b>Presumido</b> 301 mil → 557 mil</li>
+          <li><i style="background:#8b9097"></i><b>Real</b> 428 mil → 553 mil</li>
+          <li><i style="background:#d7f25a"></i><b>Simples</b> 156 mil, igual</li>
+        </ul>
+        <div class="marcos">
+          <div><b>Jan</b>escolha do regime</div>
+          <div><b>2027</b>entra a CBS</div>
+          <div><b>2029</b>ICMS e ISS caem</div>
+          <div><b>2033</b>só CBS e IBS</div>
+        </div>
+        <p class="reforma-nota">CBS de 11,3% (cálculo do TCU de 28/10/2026, que o Senado ainda vai fixar) e IBS de 18,7% (estimativa do Comitê Gestor). Quando o Senado fixar, a ferramenta é atualizada.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="w relatorio-bloco" id="relatorio">
+      <div class="folhas" aria-hidden="true">
+        <div class="folha f1"><div class="titulo">Os regimes lado a lado</div><div class="linha-cinza" style="width:90%"></div><div class="linha-cinza" style="width:70%"></div><div class="linha-cinza" style="width:80%"></div><div class="linha-cinza" style="width:55%"></div></div>
+        <div class="folha f2"><div class="titulo">Diagnóstico</div><div class="alerta">Fator R: o pró-labore certo pode cortar o DAS</div><div class="alerta">Reforma: o Presumido sobe a partir de 2027</div><div class="linha-cinza" style="width:75%"></div></div>
+        <div class="folha f3"><div class="titulo">Perguntas para levar ao contador</div><ol><li>A simulação mostra o <mark>Simples mais barato</mark>. Faz sentido trocar?</li><li>O CNAE bate com o que eu faço de verdade?</li><li>Existe imposto pago a mais nos últimos 5 anos?</li><li>O que muda para mim em 2027 com a CBS?</li></ol></div>
+      </div>
+      <div>
+        <h2>Chegue no seu contador com a conta pronta</h2>
+        <p class="lead" style="margin: 16px 0 26px">No fim, o Raio-X monta um relatório para salvar em PDF e levar na próxima conversa.</p>
+        <ul class="lista">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><div><h3>Os regimes e a conta de cada um</h3><p>Imposto por ano, por mês e em porcentagem do faturamento.</p></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg><div><h3>O diagnóstico da sua empresa</h3><p>Fator R, limite do MEI e do Simples, imposto que pode estar sendo pago em dobro, lucro acima de R$ 50 mil por sócio.</p></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 9h8M8 13h5"/><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg><div><h3>As perguntas certas</h3><p>Uma lista feita para os seus números, para a conversa com o contador render.</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="w quem">
+      <div><h2>É para você se</h2><ul><li>tem empresa, ou vai abrir, e quer saber se está no regime certo;</li><li>quer entender o que a Reforma faz com o seu imposto;</li><li>quer conversar com o contador com a conta na mão.</li></ul></div>
+      <div class="nao"><h2>Não é para você se</h2><ul><li>procura quem faça a sua contabilidade: o Raio-X não substitui o contador;</li><li>quer o valor exato da guia do mês: é simulação, não apuração;</li><li>sua empresa fatura mais de R$ 78 milhões por ano.</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="w">
+      <div class="cabeca"><h2>Por que dá para confiar na conta</h2></div>
+      <div class="provas">
+        <div class="prova"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h12l4 4v12H4z"/><path d="M8 12h8M8 16h5"/></svg><div><h3>A lei citada em cada número</h3><p>Simples e MEI pela LC 123/2006; Presumido e Real pelas leis do IRPJ, da CSLL, do PIS e da COFINS; Reforma pela EC 132/2023 e pela LC 214/2025.</p></div></div>
+        <div class="prova"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11"/></svg><div><h3>Conferida com contas feitas à mão</h3><p>Antes de ir ao ar, cada fórmula foi testada contra 38 casos calculados à mão, regime por regime.</p></div></div>
+        <div class="prova"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg><div><h3>Seus números ficam no seu aparelho</h3><p>A conta é feita no seu navegador. O que você digita não é enviado nem guardado.</p></div></div>
+        <div class="prova"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><div><h3>Compra protegida pela Hotmart</h3><p>Pagamento seguro, acesso com o login da sua compra e 7 dias para pedir o dinheiro de volta.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="oferta">
+    <div class="w">
+      <div class="oferta">
+        <div>
+          <h2>Seu Raio&#8209;X do Imposto</h2>
+          <div class="preco"><small>R$</small><span class="num">67</span></div>
+          <p class="sub">pagamento único, sem mensalidade, no Pix, no boleto ou no cartão</p>
+        </div>
+        <div>
+          <ul class="inclui">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Simulação de MEI, Simples, Presumido e Real</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>A Reforma ano a ano até 2033</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Diagnóstico e perguntas para o contador</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Relatório em PDF</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Use quantas vezes quiser, no celular ou no computador</li>
+          </ul>
+          <p class="bonus">Na hora de pagar, você pode juntar dois bônus: <b>Pró-labore Ideal</b> (R$ 27), para quem depende do Fator R, e <b>Preço 2027</b> (R$ 37), para ajustar o preço à CBS e ao IBS.</p>
+          <a class="cta" href="#" data-checkout style="margin-top: 22px">Quero o meu Raio-X
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <span class="cta-nota">Pagamento pela Hotmart · acesso logo depois da compra</span>
+        </div>
+      </div>
+      <div class="garantia">
+        <div class="selo7">7<small>dias</small></div>
+        <p>Use o Raio-X com os números da sua empresa. Se não fizer sentido para você, peça o reembolso em até 7 dias pela Hotmart e recebe 100% do valor de volta.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="w">
+      <div class="cabeca"><h2>Perguntas frequentes</h2></div>
+      <div class="faq">
+        <details><summary>O Raio-X substitui o meu contador?</summary><p>Não. Ele faz a simulação e organiza a conversa. Trocar de regime, mudar pró-labore ou mudar preço é decisão para tomar com o contador da sua empresa, que conhece detalhes que nenhuma simulação vê.</p></details>
+        <details><summary>Serve para MEI?</summary><p>Serve. O caminho do MEI mostra se você ainda cabe no limite e quanto pagaria no Simples, no Presumido e no Real quando crescer.</p></details>
+        <details><summary>Como eu acesso depois de comprar?</summary><p>Logo depois do pagamento, a Hotmart manda o acesso para o seu e-mail. É só seguir o link e entrar com o e-mail da compra.</p></details>
+        <details><summary>Preciso instalar alguma coisa?</summary><p>Não. Abre no navegador do celular ou do computador.</p></details>
+        <details><summary>Meus números ficam salvos em algum lugar?</summary><p>Não. A conta é feita no seu aparelho e nada do que você digita é enviado. Se quiser guardar o resultado, salve o PDF.</p></details>
+        <details><summary>E se as alíquotas da Reforma mudarem?</summary><p>As alíquotas de CBS e IBS a partir de 2027 ainda vão ser fixadas pelo Senado. A ferramenta mostra a data e a fonte de cada número usado e é atualizada quando a lei mudar.</p></details>
+        <details><summary>O que fica de fora da simulação?</summary><p>Substituição tributária, PIS e COFINS monofásico, IPI, benefícios do seu estado ou município, retenções, multas e parcelamentos. Quando algum deles pode pesar no seu caso, o diagnóstico avisa.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="w">
+    <p><b>Raio-X do Imposto</b> é uma ferramenta de simulação educativa. Não é consultoria contábil, tributária ou jurídica, não calcula o imposto devido e não substitui o contador da sua empresa.</p>
+    <p>CARVALHO &amp; OTTONI EDUCACAO LTDA · CNPJ 65.669.813/0001-14 · Suporte: <a href="mailto:flowgeeks.suporte@gmail.com">flowgeeks.suporte@gmail.com</a></p>
+    <nav><a href="privacidade.html">Política de privacidade</a><a href="termos.html">Termos de uso</a><a href="https://hotmart.com/pt-BR/club/raio-x-do-imposto">Já comprei: entrar</a></nav>
   </div>
-</div></section>
+</footer>
 
-<section><div class="w">
-  <h2>A Reforma começa de verdade em 2027, e o regime do ano se escolhe em janeiro</h2>
-  <div class="linha">
-    <div class="ano"><b>Jan</b><p>É no começo do ano que a empresa escolhe o regime. Escolheu errado, paga o ano inteiro.</p></div>
-    <div class="ano"><b>2027</b><p>O PIS e a COFINS acabam e entra a CBS. Em 28/10/2026 o TCU calculou a CBS de 2027 em 11,3%; o Senado fixa até dezembro.</p></div>
-    <div class="ano"><b>2029</b><p>O ICMS e o ISS começam a diminuir e o IBS começa a subir, até 2033.</p></div>
-    <div class="ano"><b>2033</b><p>Ficam só a CBS e o IBS. Em muitas empresas, o regime mais barato de hoje deixa de ser o mais barato.</p></div>
-  </div>
-</div></section>
-
-<section><div class="w">
-  <h2>Três respostas e o seu Raio-X está pronto</h2>
-  <div class="passos">
-    <div class="passo"><h3>Como sua empresa está hoje</h3><p>MEI, Simples, Presumido, Real ou "ainda vou abrir". Cada situação tem o seu caminho.</p></div>
-    <div class="passo"><h3>O que ela faz</h3><p>Comércio, indústria, serviços, tecnologia, saúde, educação e outras. A atividade muda o anexo, a presunção e o desconto da Reforma.</p></div>
-    <div class="passo"><h3>Os números de um mês normal</h3><p>Faturamento, compras, folha, pró-labore e despesas. Não sabe algum? Deixe em branco.</p></div>
-  </div>
-</div></section>
-
-<section><div class="w">
-  <h2>Tudo o que você precisa para decidir com o seu contador</h2>
-  <ul class="lista">
-    <li><div><h3>Os regimes lado a lado</h3>MEI, Simples, Presumido e Real com o imposto por ano, por mês e em percentual do faturamento, e o mais barato destacado.</div></li>
-    <li><div><h3>A conta tributo por tributo</h3>DAS, IRPJ, CSLL, PIS, COFINS, ISS ou ICMS e INSS da folha. Nada de número mágico.</div></li>
-    <li><div><h3>A Reforma ano a ano, de 2026 a 2033</h3>Quanto você pagaria em cada regime em cada ano da transição, e qual passa a ser o mais barato.</div></li>
-    <li><div><h3>O diagnóstico da sua empresa</h3>Fator R, limite do MEI e do Simples, imposto que pode estar sendo pago em dobro, lucro acima de R$ 50 mil por sócio e a diferença entre o que você paga e o que a conta mostra.</div></li>
-    <li><div><h3>As perguntas para levar ao contador</h3>Uma lista feita para os seus números. Salve em PDF e leve na próxima conversa.</div></li>
-  </ul>
-</div></section>
-
-<section><div class="w">
-  <div class="dois">
-    <div class="box"><h3>É para você se</h3><ul>
-      <li>tem empresa (ou vai abrir) e quer saber se está no regime certo;</li>
-      <li>quer entender o que a Reforma faz com o seu imposto;</li>
-      <li>quer chegar no contador com a conta na mão.</li>
-    </ul></div>
-    <div class="box"><h3>Não é para você se</h3><ul>
-      <li>procura quem faça a sua contabilidade: o Raio-X não substitui o contador;</li>
-      <li>quer o valor exato da guia do mês: é simulação, não apuração;</li>
-      <li>sua empresa fatura mais de R$ 78 milhões por ano.</li>
-    </ul></div>
-  </div>
-</div></section>
-
-<section><div class="w">
-  <h2>Contas abertas, com a lei citada</h2>
-  <ul class="lista">
-    <li><div><h3>Regras com fonte</h3>Simples e MEI pela LC 123/2006; Presumido e Real pelas leis do IRPJ, da CSLL, do PIS e da COFINS; Reforma pela EC 132/2023 e pela LC 214/2025. Cada número tem a sua fonte.</div></li>
-    <li><div><h3>Conferido com casos calculados à mão</h3>Antes de ir ao ar, cada fórmula foi testada contra contas feitas à mão, regime por regime.</div></li>
-    <li><div><h3>Seus números não saem do seu aparelho</h3>A conta é feita no seu navegador. Nada do que você digita é enviado ou guardado.</div></li>
-  </ul>
-</div></section>
-
-<section id="oferta"><div class="w">
-  <div class="oferta">
-    <div class="marca" style="color:#fff"><span style="color:var(--ink)">Raio-X</span> do Imposto</div>
-    <div class="preco"><small>R$</small> 67</div>
-    <div class="cta-sub" style="margin-top:0">pagamento único, sem mensalidade</div>
-    <ul>
-      <li>Simulação de MEI, Simples, Presumido e Real</li>
-      <li>Reforma Tributária ano a ano até 2033</li>
-      <li>Diagnóstico e perguntas para o contador</li>
-      <li>Relatório em PDF</li>
-      <li>Use quantas vezes quiser, no celular ou no computador</li>
-    </ul>
-    <a class="cta" href="#" data-checkout>Quero o meu Raio-X</a>
-    <span class="cta-sub">Pagamento seguro pela Hotmart · acesso logo depois da compra</span>
-  </div>
-  <div class="garantia">
-    <div class="selo7">7<small>dias</small></div>
-    <p class="muted" style="margin:0">Use o Raio-X com os números da sua empresa. Se não fizer sentido para você, peça o reembolso em até 7 dias pela Hotmart e recebe 100% do valor de volta.</p>
-  </div>
-</div></section>
-
-<section><div class="w">
-  <h2>Perguntas frequentes</h2>
-  <details><summary>O Raio-X substitui o meu contador?</summary><p>Não. Ele faz a simulação e organiza a conversa. Trocar de regime, mudar pró-labore ou mudar preço é decisão para tomar com o contador da sua empresa, que conhece detalhes que nenhuma simulação vê.</p></details>
-  <details><summary>Serve para MEI?</summary><p>Serve. O caminho do MEI mostra se você ainda cabe no limite e quanto pagaria no Simples, no Presumido e no Real quando crescer.</p></details>
-  <details><summary>Preciso instalar alguma coisa?</summary><p>Não. Abre no navegador do celular ou do computador. Você recebe o link de acesso logo depois da compra.</p></details>
-  <details><summary>Meus números ficam salvos em algum lugar?</summary><p>Não. A conta é feita no seu aparelho e nada é enviado. Se quiser guardar o resultado, salve o PDF.</p></details>
-  <details><summary>E se as alíquotas da Reforma mudarem?</summary><p>As alíquotas de CBS e IBS a partir de 2027 ainda vão ser fixadas pelo Senado. A ferramenta mostra a data e a fonte de cada número usado, e as regras de 2026 são as que estão em vigor.</p></details>
-  <details><summary>O que fica de fora da simulação?</summary><p>Substituição tributária, PIS e COFINS monofásico, IPI, benefícios do seu estado ou município, retenções, multas e parcelamentos. Quando algum deles pode pesar no seu caso, o diagnóstico avisa.</p></details>
-</div></section>
-
-<footer><div class="w">
-  <p><b>Raio-X do Imposto</b> é uma ferramenta de simulação educativa. Não é consultoria contábil, tributária ou jurídica, não calcula o imposto devido e não substitui o contador da sua empresa.</p>
-  <p>CARVALHO &amp; OTTONI EDUCACAO LTDA · CNPJ 65.669.813/0001-14</p>
-  <p>Privacidade: esta página usa o pixel da Meta para medir os anúncios. A ferramenta não coleta nem guarda os números que você digita.</p>
-</div></footer>
+<div class="fixo" id="fixo" aria-hidden="true">
+  <span><b>R$ 67</b>7 dias de garantia</span>
+  <a class="cta" href="#oferta" data-checkout tabindex="-1">Quero o meu Raio&#8209;X <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
 
 <script>
 // Preencher antes de publicar: o link do checkout da Hotmart e o ID do pixel da Meta deste produto
-const CHECKOUT = '';
+const CHECKOUT = 'https://pay.hotmart.com/C108255343X';
 const PIXEL = '';
 if (CHECKOUT) document.querySelectorAll('[data-checkout]').forEach(a => { a.href = CHECKOUT; a.addEventListener('click', () => window.fbq && fbq('track', 'InitiateCheckout')); });
 if (PIXEL) {
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', PIXEL); fbq('track', 'PageView');
 }
+
+// A varredura do raio-x roda quando o painel aparece, e de novo no botão
+const filme = document.getElementById('filme');
+const varrer = () => { filme.classList.remove('revelando'); void filme.offsetWidth; filme.classList.add('revelando'); };
+document.getElementById('rever').addEventListener('click', varrer);
+
+// O resto da página revela uma vez ao entrar na tela
+const ver = new IntersectionObserver(entradas => {
+  for (const e of entradas) if (e.isIntersecting) {
+    if (e.target === filme) varrer(); else e.target.classList.add('visto');
+    ver.unobserve(e.target);
+  }
+}, { threshold: .35 });
+const jaNaTela = filme.getBoundingClientRect().top < innerHeight;
+if (jaNaTela) varrer();
+[jaNaTela ? null : filme, document.getElementById('conta'), document.getElementById('grafico'), document.getElementById('relatorio')].filter(Boolean).forEach(el => ver.observe(el));
+
+// Botão fixo no celular depois que o primeiro botão sai da tela
+const fixo = document.getElementById('fixo'), primeiro = document.querySelector('.heroi .cta'), oferta = document.getElementById('oferta');
+let passouHeroi = false, naOferta = false;
+const atualizar = () => fixo.classList.toggle('on', passouHeroi && !naOferta);
+new IntersectionObserver(([e]) => { passouHeroi = !e.isIntersecting && e.boundingClientRect.top < 0; atualizar(); }).observe(primeiro);
+new IntersectionObserver(([e]) => { naOferta = e.isIntersecting; atualizar(); }, { threshold: .2 }).observe(oferta);
 </script>
+<script src="https://dottoni.github.io/flowgeeks-painel/rastreio.js" defer></script>
 </body>
 </html>

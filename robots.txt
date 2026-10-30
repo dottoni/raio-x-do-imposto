@@ -1,2 +1,3 @@
 User-agent: *
+Disallow: /app/
 Disallow: /acesso-7k2m/

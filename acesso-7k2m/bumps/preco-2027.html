@@ -10,8 +10,8 @@
 <body>
 <div class="wrap">
   <header>
-    <span class="selo">Bônus · Raio-X do Imposto</span>
     <h1>Preço 2027</h1>
+    <span class="selo">Bônus · Raio-X do Imposto</span>
     <p class="lead">A partir de 2027 a CBS e o IBS vêm destacados por fora do preço, e o PIS, a COFINS, o ICMS e o ISS vão saindo. Veja, ano a ano até 2033, quanto cobrar para continuar recebendo o mesmo que hoje.</p>
   </header>
 
@@ -99,6 +99,17 @@ $('calcular').onclick = () => {
   $('resultado').hidden = false;
   $('resultado').scrollIntoView({ behavior: 'smooth' });
 };
+</script>
+<script>
+fetch('/api/eu').then(r => r.ok ? r.json() : null).then(d => {
+  if (!d || !d.email) return;
+  const p = document.createElement('p');
+  p.className = 'licenca';
+  p.textContent = 'Licença de uso pessoal: ' + d.email;
+  document.querySelector('.aviso')?.appendChild(p);
+  const c = document.getElementById('cabecalho-impressao');
+  if (c) { const q = p.cloneNode(true); c.appendChild(q); }
+}).catch(() => {});
 </script>
 </body>
 </html>

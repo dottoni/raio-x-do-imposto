@@ -10,8 +10,8 @@
 <body>
 <div class="wrap">
   <header>
-    <div class="eyebrow">Simulador Tributário 2026 · Reforma até 2033</div>
     <h1 id="titulo">Raio-X do Imposto</h1>
+    <div class="eyebrow">Simulador Tributário 2026 · Reforma até 2033</div>
     <p class="lead">Veja quanto sua empresa pagaria de imposto em cada regime e o que muda com a Reforma, ano a ano. Leva 3 minutos. Seus números não saem deste aparelho.</p>
   </header>
 
@@ -325,6 +325,17 @@ function mostrar(res) {
 $('imprimir').onclick = () => window.print();
 $('recomecar').onclick = () => { estado.modalidade = estado.setor = null; estado.valores = {}; document.querySelectorAll('.opcao').forEach(o => o.setAttribute('aria-pressed', 'false')); ir(1); };
 ir(1);
+</script>
+<script>
+fetch('/api/eu').then(r => r.ok ? r.json() : null).then(d => {
+  if (!d || !d.email) return;
+  const p = document.createElement('p');
+  p.className = 'licenca';
+  p.textContent = 'Licença de uso pessoal: ' + d.email;
+  document.querySelector('.aviso')?.appendChild(p);
+  const c = document.getElementById('cabecalho-impressao');
+  if (c) { const q = p.cloneNode(true); c.appendChild(q); }
+}).catch(() => {});
 </script>
 </body>
 </html>
